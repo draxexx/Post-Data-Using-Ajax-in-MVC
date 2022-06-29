@@ -1,0 +1,80 @@
+@using Student.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@model StudentModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Student</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+</head>
+<body>
+
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <form>
+                <div class="mb-3">
+                    <label class="form-label" asp-for="Name"></label>
+                    <input class="form-control" asp-for="Name">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" asp-for="Surname"></label>
+                    <input class="form-control" asp-for="Surname">
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                    <label class="form-check-label" for="exampleCheck1">Remind Me</label>
+                </div>
+                <button type="submit" class="btn btn-primary" id="LoginBtn">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script>
+
+        $("#LoginBtn").click(function(e){
+            BtnClick();
+            e.preventDefault();
+        });
+
+        function BtnClick(){
+            var name = $("#Name").val();
+            var surname = $("#Surname").val();
+
+            var obj = {
+                Name:name,
+                Surname:surname,
+            }
+
+            SubmitForm(obj);
+        }
+
+        function SubmitForm(obj){
+
+            $.ajax({
+                url:"/Home/AddStudent",
+                method:"POST",
+                data:obj,
+                success:function(data){
+                    console.log(data);
+                    alert(data);
+                },
+                error:function(err){
+                    console.error(err);
+                }
+            })
+
+            $("#Name").val("");
+            $("#Surname").val("");
+        }
+
+    </script>
+    
+</body>
+</html>
